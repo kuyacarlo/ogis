@@ -20,7 +20,9 @@ import {
   Plus,
   X,
   Check,
-  FileText
+  FileText,
+  BarChart2,
+  Bookmark
 } from 'lucide-react';
 
 export default function App() {
@@ -154,19 +156,95 @@ export default function App() {
     }
   ]);
 
+  // Dynamic Omoide Chapter Archives (Making Scrapbook Chapters Alive!)
+  const chapterData = {
+    'The Arrival': {
+      title: 'The Arrival at Enoshima',
+      pageInfo: 'PAGE 01 • AUG 12, 2024',
+      sharedWith: 'SHARED WITH KAITO',
+      polaroid1: {
+        img: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80',
+        caption: 'First glimpse of the ocean from the Enoden line!'
+      },
+      polaroid2: {
+        img: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=600&auto=format&fit=crop&q=80',
+        caption: 'Warm eel bento before heading to the inn.'
+      },
+      voiceLog: {
+        title: 'Arriving at the Ryokan',
+        duration: '00:30 / 01:00'
+      },
+      notes: [
+        { id: 101, author: 'Kaito T.', time: '11:15 AM', text: 'The wooden floors of the inn creaked so softly. We unpacked our bags while listening to cicadas outside.' }
+      ]
+    },
+    'Kamakura Coast': {
+      title: 'Kamakura Coastline Walk',
+      pageInfo: 'PAGE 04 • AUG 14, 2024',
+      sharedWith: 'SHARED WITH KAITO',
+      polaroid1: {
+        img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80',
+        caption: 'Golden hour over Yuigahama beach.'
+      },
+      polaroid2: {
+        img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&auto=format&fit=crop&q=80',
+        caption: 'Sea salt ice cream melted in 30 seconds!'
+      },
+      voiceLog: {
+        title: 'Ocean Breeze at Sunset',
+        duration: '00:45 / 01:30'
+      },
+      notes: [
+        { id: 102, author: 'You', time: '17:40 PM', text: 'Walked 8 kilometers along the coastline until our shoes were full of black volcanic sand.' }
+      ]
+    },
+    'Rainy Shrines': {
+      title: 'Summer in Kamakura Shrines',
+      pageInfo: 'PAGE 07 • AUG 16, 2024',
+      sharedWith: 'SHARED WITH KAITO',
+      polaroid1: {
+        img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80',
+        caption: 'The waves were so loud...'
+      },
+      polaroid2: {
+        img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&auto=format&fit=crop&q=80',
+        caption: 'Best matcha we found!'
+      },
+      voiceLog: {
+        title: 'Rainy Evening Reflection',
+        duration: '00:42 / 01:15'
+      },
+      notes: [
+        { id: 103, author: 'Kaito T.', time: '14:02 PM', text: 'Remember when we almost missed the last train because we were looking for that hidden shrine? The air smelled like salt and incense.' }
+      ]
+    },
+    'Departure Day': {
+      title: 'Departure & Souvenirs',
+      pageInfo: 'PAGE 12 • AUG 18, 2024',
+      sharedWith: 'SHARED WITH KAITO',
+      polaroid1: {
+        img: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&auto=format&fit=crop&q=80',
+        caption: 'Quiet bamboo paths at Hokokuji temple.'
+      },
+      polaroid2: {
+        img: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&auto=format&fit=crop&q=80',
+        caption: 'Got our Goshuin stamp book completed!'
+      },
+      voiceLog: {
+        title: 'Final Train Back to Tokyo',
+        duration: '00:55 / 02:00'
+      },
+      notes: [
+        { id: 104, author: 'You', time: '19:10 PM', text: 'Buying train snacks at Kamakura station. Promised we would come back next autumn.' }
+      ]
+    }
+  };
+
   // Audio Voice Player State
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [audioProgress, setAudioProgress] = useState(42);
 
-  // Omoide Shared Scrapbook Notes
-  const [scrapbookNotes, setScrapbookNotes] = useState([
-    {
-      id: 1,
-      author: 'Kaito T.',
-      time: '14:02 PM',
-      text: 'Remember when we almost missed the last train because we were looking for that hidden shrine? ⛩️ The air smelled like salt and incense. I found this photo of you laughing at my map reading skills.'
-    }
-  ]);
+  // Dynamic Scrapbook Note Add State
   const [newScrapbookText, setNewScrapbookText] = useState('');
 
   // Fireside State
@@ -226,16 +304,16 @@ export default function App() {
 
   const handleAddScrapbookNote = () => {
     if (!newScrapbookText.trim()) return;
-    const newN = {
+    const activeCh = chapterData[selectedChapter];
+    activeCh.notes.push({
       id: Date.now(),
       author: 'You',
       time: 'Just now',
       text: newScrapbookText
-    };
-    setScrapbookNotes([newN, ...scrapbookNotes]);
+    });
     setNewScrapbookText('');
     setAddNoteModalOpen(false);
-    showToast('Memory note pinned to Kamakura scrapbook!');
+    showToast(`Memory note pinned to ${selectedChapter}!`);
   };
 
   const handleSealShizuka = () => {
@@ -247,12 +325,14 @@ export default function App() {
     };
     setSavedReflections([newRef, ...savedReflections]);
     setShizukaText('');
-    showToast('Reflective log sealed in local vault 🈲');
+    showToast('Reflective log sealed in local vault');
   };
 
   const filteredPosts = selectedFriend 
     ? timelinePosts.filter(p => p.authorCode === selectedFriend)
     : timelinePosts;
+
+  const currentChapter = chapterData[selectedChapter] || chapterData['Rainy Shrines'];
 
   // Render Shared Sticky Right Sidebar Component
   const renderSharedRightSidebar = (extraWidget = null) => (
@@ -298,7 +378,7 @@ export default function App() {
             onClick={() => setDunbarModalOpen(true)}
             className="text-xs font-bold text-[#8b716c] font-mono hover:text-[#a43720]"
           >
-            INNER CIRCLE ℹ️
+            INNER CIRCLE
           </button>
           <span className="text-xs text-[#a43720] font-bold font-mono">15/15 Active</span>
         </div>
@@ -426,7 +506,7 @@ export default function App() {
           <button 
             onClick={() => {
               setSolitudeShield(!solitudeShield);
-              showToast(solitudeShield ? 'Solitude Shield deactivated' : 'Solitude Shield activated 🌸');
+              showToast(solitudeShield ? 'Solitude Shield deactivated' : 'Solitude Shield activated');
             }}
             className="ml-auto text-xs font-bold flex items-center gap-1.5"
           >
@@ -439,7 +519,7 @@ export default function App() {
       {/* Retro Scrolling Marquee Banner */}
       <div className="neo-marquee-wrap mb-6" aria-hidden="true">
         <div className="neo-marquee-track">
-          ✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹
+          WELCOME TO KIZUNA SANCTUARY --- NARROW & DEEP CONNECTIONS --- DUNBAR 15 INNER CIRCLE --- ZERO DOPAMINE BADGES --- SOLITUDE SHIELD ACTIVE --- NO INFINITE SCROLL --- DISCONNECTED BY DESIGN --- WELCOME TO KIZUNA SANCTUARY --- NARROW & DEEP CONNECTIONS --- DUNBAR 15 INNER CIRCLE --- ZERO DOPAMINE BADGES --- SOLITUDE SHIELD ACTIVE --- NO INFINITE SCROLL --- DISCONNECTED BY DESIGN ---
         </div>
       </div>
 
@@ -447,12 +527,12 @@ export default function App() {
       <main className="min-w-0">
         
         {/* =================================================================== */}
-        {/* TAB 1: SANCTUARY (IDENTICAL GAP-8 2-COLUMN GRID) */}
+        {/* TAB 1: SANCTUARY */}
         {/* =================================================================== */}
         {activeTab === 'sanctuary' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Left Main Column: Title Block, Log Entry Creator & 10 Timeline Entries */}
+            {/* Left Main Column */}
             <div className="lg:col-span-8 space-y-6">
               <div>
                 <h1 className="font-bold text-3xl text-[#a43720] mb-1">Sanctuary Feed</h1>
@@ -484,7 +564,7 @@ export default function App() {
                       <Paperclip className="w-4 h-4" />
                     </button>
                     <button 
-                      onClick={() => showToast('Hanko emoji seal added')}
+                      onClick={() => showToast('Hanko seal added')}
                       className="p-1.5 border border-[#dfc0b9] rounded bg-white text-[#58423d] hover:bg-[#faf3e0]"
                     >
                       <Smile className="w-4 h-4" />
@@ -542,16 +622,16 @@ export default function App() {
 
                       <div className="flex items-center gap-6 pt-3 border-t border-[#dfc0b9] text-xs text-[#58423d]">
                         <button 
-                          onClick={() => showToast(`Sent warmth to ${post.author} ♡`)}
+                          onClick={() => showToast(`Sent warmth to ${post.author}`)}
                           className="flex items-center gap-1 hover:text-[#a43720] cursor-pointer font-mono"
                         >
-                          ♡ {post.warmth} Warmth
+                          Warmth ({post.warmth})
                         </button>
                         <button 
                           onClick={() => showToast(`Opening private thread with ${post.author}`)}
                           className="flex items-center gap-1 hover:text-[#1e1c10] cursor-pointer font-mono"
                         >
-                          💬 {post.replies} Replies
+                          Replies ({post.replies})
                         </button>
                       </div>
                     </div>
@@ -561,7 +641,7 @@ export default function App() {
 
             </div>
 
-            {/* Right Sidebar: Sticky Unified Sidebar */}
+            {/* Sticky Right Sidebar */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar()}
             </div>
@@ -570,24 +650,30 @@ export default function App() {
         )}
 
         {/* =================================================================== */}
-        {/* TAB 2: OMOIDE (IDENTICAL GAP-8 2-COLUMN GRID) */}
+        {/* TAB 2: OMOIDE (ALIVE SCRAPBOOK CHAPTERS) */}
         {/* =================================================================== */}
         {activeTab === 'omoide' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             <div className="lg:col-span-8 space-y-6">
-              <div>
-                <h1 className="font-bold text-3xl text-[#a43720] mb-1">Omoide Memories</h1>
-                <p className="italic text-sm text-[#58423d]">
-                  "A private, shared scrapbook between you and those who matter most. Every page is a tactile archive of moments."
-                </p>
+              <div className="flex justify-between items-end border-b border-[#dfc0b9] pb-3">
+                <div>
+                  <h1 className="font-bold text-3xl text-[#a43720] mb-1">Omoide Memories</h1>
+                  <p className="italic text-sm text-[#58423d]">
+                    "A private, shared scrapbook between you and those who matter most."
+                  </p>
+                </div>
+                <span className="font-mono text-xs font-bold text-[#a43720] bg-[#ffdad3] px-2.5 py-1 rounded border border-[#dfc0b9]">
+                  {currentChapter.pageInfo}
+                </span>
               </div>
 
-              <div className="board-card p-6 space-y-6">
+              {/* Dynamic Chapter Scrapbook Board */}
+              <div className="board-card p-6 space-y-6 transition-all duration-300">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-bold text-[#1e1c10]">Summer in Kamakura</h3>
-                    <span className="text-xs font-bold text-[#58423d]">SHARED WITH KAITO • AUG 2024</span>
+                    <h3 className="text-xl font-bold text-[#1e1c10]">{currentChapter.title}</h3>
+                    <span className="text-xs font-bold text-[#58423d] font-mono">{currentChapter.sharedWith}</span>
                   </div>
                   <button 
                     onClick={() => setAddNoteModalOpen(true)}
@@ -598,19 +684,19 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                  <div className="p-2 bg-white border border-[#dfc0b9] transform -rotate-1 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80" alt="Beach" className="w-full h-44 object-cover mb-2" />
-                    <p className="italic text-base text-center text-[#1e1c10]">The waves were so loud...</p>
+                  <div className="p-2 bg-white border border-[#dfc0b9] transform -rotate-1 shadow-sm hover:rotate-0 transition-transform duration-300">
+                    <img src={currentChapter.polaroid1.img} alt="Polaroid 1" className="w-full h-44 object-cover mb-2" />
+                    <p className="italic text-base text-center text-[#1e1c10]">{currentChapter.polaroid1.caption}</p>
                   </div>
 
-                  <div className="p-2 bg-white border border-[#dfc0b9] transform rotate-1 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&auto=format&fit=crop&q=80" alt="Matcha" className="w-full h-44 object-cover mb-2" />
-                    <p className="italic text-base text-center text-[#1e1c10]">Best matcha we found!</p>
+                  <div className="p-2 bg-white border border-[#dfc0b9] transform rotate-1 shadow-sm hover:rotate-0 transition-transform duration-300">
+                    <img src={currentChapter.polaroid2.img} alt="Polaroid 2" className="w-full h-44 object-cover mb-2" />
+                    <p className="italic text-base text-center text-[#1e1c10]">{currentChapter.polaroid2.caption}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Voice Log Player */}
+              {/* Dynamic Voice Log Player */}
               <div className="board-card p-6 bg-[#faf3e0]">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-3">
@@ -618,18 +704,18 @@ export default function App() {
                       <Volume2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-base font-bold text-[#1e1c10]">Rainy Evening Reflection</h4>
-                      <span className="text-[10px] font-bold text-[#58423d]">VOICE LOG • 00:42 / 01:15</span>
+                      <h4 className="text-base font-bold text-[#1e1c10]">{currentChapter.voiceLog.title}</h4>
+                      <span className="text-[10px] font-bold text-[#58423d] font-mono">VOICE LOG • {currentChapter.voiceLog.duration}</span>
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold text-[#a43720] border border-[#a43720] px-2 py-0.5 rounded">MONO RECORDING</span>
+                  <span className="text-[10px] font-bold text-[#a43720] border border-[#a43720] px-2 py-0.5 rounded font-mono">MONO RECORDING</span>
                 </div>
 
                 <div className="flex items-center gap-4 bg-white p-4 rounded border border-[#dfc0b9]">
                   <button 
                     onClick={() => {
                       setIsPlayingAudio(!isPlayingAudio);
-                      showToast(isPlayingAudio ? 'Audio playback paused' : 'Playing 60s voice journal...');
+                      showToast(isPlayingAudio ? 'Audio playback paused' : `Playing ${currentChapter.voiceLog.title}...`);
                     }}
                     className="w-8 h-8 rounded-full bg-[#a43720] text-white flex items-center justify-center hover:bg-[#86220c]"
                   >
@@ -644,14 +730,14 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Scrapbook Note List */}
-              {scrapbookNotes.map(note => (
+              {/* Dynamic Scrapbook Notes List */}
+              {currentChapter.notes.map(note => (
                 <div key={note.id} className="board-card p-6 bg-[#fffde8] border-[#e2d580] space-y-4">
                   <div className="space-y-3 italic text-lg text-[#1e1c10] leading-relaxed">
                     <p>"{note.text}"</p>
                   </div>
 
-                  <div className="flex justify-between items-center pt-4 border-t border-[#e2d580] text-xs text-[#58423d] font-bold">
+                  <div className="flex justify-between items-center pt-4 border-t border-[#e2d580] text-xs text-[#58423d] font-bold font-mono">
                     <span>{note.author}</span>
                     <span>{note.time}</span>
                   </div>
@@ -660,12 +746,14 @@ export default function App() {
 
             </div>
 
-            {/* Right Sidebar: Sticky Unified Sidebar */}
+            {/* Right Sidebar: Sticky Unified Sidebar with Interactive Chapters */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5">
-                  <span className="text-xs font-bold block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">📋 SCRAPBOOK CHAPTERS</span>
-                  <ul className="space-y-3 text-xs">
+                  <span className="text-xs font-bold block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">
+                    SCRAPBOOK CHAPTERS
+                  </span>
+                  <ul className="space-y-2.5 text-xs">
                     {[
                       { title: 'The Arrival', page: 'PAGE 01' },
                       { title: 'Kamakura Coast', page: 'PAGE 04' },
@@ -676,11 +764,14 @@ export default function App() {
                         key={ch.title}
                         onClick={() => {
                           setSelectedChapter(ch.title);
-                          showToast(`Loaded chapter: ${ch.title}`);
+                          showToast(`Opened chapter: ${ch.title}`);
                         }}
-                        className={`flex justify-between cursor-pointer p-1 rounded ${selectedChapter === ch.title ? 'font-bold text-[#a43720] border-l-2 border-[#a43720] pl-2 bg-[#faf3e0]' : 'text-[#58423d] hover:text-[#a43720]'}`}
+                        className={`flex justify-between items-center cursor-pointer p-2 rounded transition-all ${selectedChapter === ch.title ? 'font-bold text-[#a43720] bg-[#ffdad3] border border-[#a43720]' : 'text-[#58423d] hover:bg-[#faf3e0] hover:text-[#a43720]'}`}
                       >
-                        <span>• {ch.title}</span>
+                        <span className="flex items-center gap-1.5">
+                          <Bookmark className="w-3.5 h-3.5 text-[#a43720]" />
+                          <span>{ch.title}</span>
+                        </span>
                         <span className="text-[10px] font-mono">{ch.page}</span>
                       </li>
                     ))}
@@ -693,7 +784,7 @@ export default function App() {
         )}
 
         {/* =================================================================== */}
-        {/* TAB 3: FIRESIDE (IDENTICAL GAP-8 2-COLUMN GRID) */}
+        {/* TAB 3: FIRESIDE */}
         {/* =================================================================== */}
         {activeTab === 'fireside' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -728,7 +819,7 @@ export default function App() {
                   <button 
                     onClick={() => {
                       setIsFiresideUnveiled(true);
-                      showToast('Reflection pinned! Fireside responses unveiled 🔓');
+                      showToast('Reflection pinned! Fireside responses unveiled');
                     }}
                     className="button-tactile"
                   >
@@ -765,7 +856,7 @@ export default function App() {
               ) : (
                 <div className="board-card p-8 text-center max-w-md mx-auto space-y-4 shadow-lg border-2 border-[#a43720]">
                   <div className="w-12 h-12 rounded-xl bg-[#ffdad3] text-[#a43720] flex items-center justify-center mx-auto text-xl">
-                    🔓
+                    <Lock className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#1e1c10]">Awaiting Your Spark</h3>
                   <p className="text-xs italic text-[#58423d]">
@@ -774,7 +865,7 @@ export default function App() {
                   <button 
                     onClick={() => {
                       setIsFiresideUnveiled(true);
-                      showToast('Circle responses unveiled 🔓');
+                      showToast('Circle responses unveiled');
                     }}
                     className="button-tactile w-full py-2.5"
                   >
@@ -784,7 +875,7 @@ export default function App() {
               )}
             </div>
 
-            {/* Right Sidebar: Sticky Unified Sidebar */}
+            {/* Sticky Right Sidebar */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5 text-center space-y-3">
@@ -816,7 +907,6 @@ export default function App() {
                   <p className="text-xs text-[#58423d]">Outer noise is silenced. Your digital breath is your own.</p>
                 </div>
               </div>
-              <span className="text-xl">🌸</span>
             </div>
 
             <div className="board-card p-6 space-y-6">
@@ -849,10 +939,10 @@ export default function App() {
 
               <div className="flex flex-wrap gap-3">
                 {[
-                  { label: 'Peaceful', icon: '🍃' },
-                  { label: 'Contemplative', icon: '🧠' },
-                  { label: 'Weary', icon: '🌙' },
-                  { label: 'Recharged', icon: '⚡' }
+                  { label: 'Peaceful' },
+                  { label: 'Contemplative' },
+                  { label: 'Weary' },
+                  { label: 'Recharged' }
                 ].map(stamp => (
                   <button
                     key={stamp.label}
@@ -862,8 +952,7 @@ export default function App() {
                     }}
                     className={`px-4 py-2 rounded text-xs font-bold border border-[#8b716c] ${selectedResonance === stamp.label ? 'bg-[#a43720] text-white border-[#86220c]' : 'bg-white text-[#1e1c10]'}`}
                   >
-                    <span>{stamp.icon}</span>
-                    <span className="ml-1">{stamp.label}</span>
+                    <span>{stamp.label}</span>
                   </button>
                 ))}
               </div>
@@ -988,7 +1077,7 @@ export default function App() {
           <div className="neo-box max-w-lg w-full bg-white space-y-4 relative">
             <div className="flex justify-between items-center border-b border-[#dfc0b9] pb-2">
               <h3 className="text-lg font-bold text-[#a43720] flex items-center gap-2">
-                <FileText className="w-4 h-4" /> Pin Memory to Scrapbook
+                <FileText className="w-4 h-4" /> Pin Memory to {selectedChapter}
               </h3>
               <button onClick={() => setAddNoteModalOpen(false)} className="text-[#58423d] hover:text-[#a43720]">
                 <X className="w-5 h-5" />
@@ -998,7 +1087,7 @@ export default function App() {
             <textarea 
               value={newScrapbookText}
               onChange={(e) => setNewScrapbookText(e.target.value)}
-              placeholder="Write a warm note or memory for Kaito..."
+              placeholder={`Write a warm memory note for ${selectedChapter}...`}
               className="w-full h-32 p-3 bg-[#fffde8] border border-[#e2d580] rounded text-sm text-[#1e1c10] focus:outline-none resize-none"
             />
 
