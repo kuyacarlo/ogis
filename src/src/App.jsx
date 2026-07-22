@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Shield, 
   Heart, 
@@ -21,14 +21,12 @@ import {
   X,
   Check,
   FileText,
-  BarChart2,
   Bookmark
 } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('sanctuary');
   const [solitudeShield, setSolitudeShield] = useState(false);
-  const [cadenceSetting, setCadenceSetting] = useState('02. 3X');
 
   // Interactive Modal States
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
@@ -40,6 +38,20 @@ export default function App() {
   // Friend & Chapter Filter States
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState('Rainy Shrines');
+
+  // Random Marquee Pool State
+  const [marqueeText, setMarqueeText] = useState('');
+
+  useEffect(() => {
+    const marqueePool = [
+      "✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹",
+      "🌸 UNPLUGGED DIGITAL SANCTUARY 🌸 PURPOSES OVER PLATFORMS 🌸 TSUNAGARANAI KACHI 🌸 INTENTION OVER ATTENTION 🌸 RECLAIM YOUR SILENCE 🌸 SHIZUKA SOLITUDE 🌸",
+      "⛩️ OMOIDE SCRAPBOOKS & TIME CAPSULES ⛩️ 60S VOICE JOURNALS ⛩️ FIRESIDE UNVEIL BOARDS ⛩️ ZERO ALGORITHMIC FEED RE-ORDERING ⛩️ LOCAL-FIRST ENCRYPTION ⛩️",
+      "🌱 DEEP WARMTH OVER HYPER-CONNECTIVITY 🌱 SLOW COMMUNICATION ⛩️ 15 INNER CIRCLE CAPACITY 🌸 SOLITUDE SHIELD ✹ OGIS PHILIPPINES 2026 ✹"
+    ];
+    const randomIndex = Math.floor(Math.random() * marqueePool.length);
+    setMarqueeText(marqueePool[randomIndex]);
+  }, []);
 
   // Sanctuary Feed Posts (10 Grounded Log Entries)
   const [leafText, setLeafText] = useState('');
@@ -334,48 +346,11 @@ export default function App() {
 
   const currentChapter = chapterData[selectedChapter] || chapterData['Rainy Shrines'];
 
-  // Render Shared Sticky Right Sidebar Component (Sticky Top-6 across Sanctuary, Omoide, & Fireside)
+  // Shared Sticky Right Sidebar (Inner Circle Grid + Tab Widget)
   const renderSharedRightSidebar = (extraWidget = null) => (
     <div className="sticky top-6 self-start space-y-6">
       
-      {/* 1. Cadence Control Card: Left status display + Right 3 stacked toggle buttons */}
-      <div className="command-card p-5">
-        <span className="text-xs font-bold text-[#8b716c] block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">
-          CADENCE CONTROL
-        </span>
-
-        <div className="flex items-center gap-3">
-          {/* Left Side: Physical Status Switch Display */}
-          <div className="w-24 h-20 bg-[#e9e2d0] border-2 border-[#8b716c] rounded-lg flex flex-col items-center justify-center gap-1 shadow-inner shrink-0">
-            <div className="w-1.5 h-3.5 bg-[#a43720] rounded-full"></div>
-            <div className="bg-white border border-[#dfc0b9] px-2 py-0.5 rounded text-[10px] text-[#a43720] font-bold font-mono">
-              {cadenceSetting}
-            </div>
-          </div>
-
-          {/* Right Side: 3 Toggleable Buttons */}
-          <div className="flex-1 space-y-1">
-            {[
-              { id: '01. INF', label: '01. INF' },
-              { id: '02. 3X', label: '02. 3X' },
-              { id: '03. SUN', label: '03. SUN' }
-            ].map((opt) => (
-              <button
-                key={opt.id}
-                onClick={() => {
-                  setCadenceSetting(opt.id);
-                  showToast(`Cadence throttle updated: ${opt.id}`);
-                }}
-                className={`w-full py-1 px-2 bg-white border border-[#dfc0b9] rounded text-[10px] font-mono text-center transition-all ${cadenceSetting === opt.id ? 'border-[#a43720] bg-[#ffdad3] text-[#a43720] font-bold shadow-xs' : 'text-[#58423d] hover:border-[#a43720]'}`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Inner Circle 15-Friend Grid */}
+      {/* 1. Inner Circle 15-Friend Grid */}
       <div className="command-card p-5">
         <div className="flex justify-between items-center mb-4 border-b border-[#dfc0b9] pb-2">
           <button 
@@ -424,7 +399,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* 3. Extra Tab-Specific Widget */}
+      {/* 2. Extra Tab-Specific Widget */}
       {extraWidget}
     </div>
   );
@@ -520,10 +495,10 @@ export default function App() {
         </nav>
       </header>
 
-      {/* Retro Scrolling Marquee Banner */}
+      {/* Dynamic Retro Scrolling Marquee Banner with Emojis */}
       <div className="neo-marquee-wrap mb-6" aria-hidden="true">
         <div className="neo-marquee-track">
-          WELCOME TO KIZUNA SANCTUARY --- NARROW & DEEP CONNECTIONS --- DUNBAR 15 INNER CIRCLE --- ZERO DOPAMINE BADGES --- SOLITUDE SHIELD ACTIVE --- NO INFINITE SCROLL --- DISCONNECTED BY DESIGN --- WELCOME TO KIZUNA SANCTUARY --- NARROW & DEEP CONNECTIONS --- DUNBAR 15 INNER CIRCLE --- ZERO DOPAMINE BADGES --- SOLITUDE SHIELD ACTIVE --- NO INFINITE SCROLL --- DISCONNECTED BY DESIGN ---
+          {marqueeText || "✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹"}
         </div>
       </div>
 
@@ -757,7 +732,7 @@ export default function App() {
                   <span className="text-xs font-bold block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">
                     SCRAPBOOK CHAPTERS
                   </span>
-                  <ul className="space-y-2.5 text-xs">
+                  <ul className="space-y-2 text-xs font-normal">
                     {[
                       { title: 'The Arrival', page: 'PAGE 01' },
                       { title: 'Kamakura Coast', page: 'PAGE 04' },
@@ -933,7 +908,7 @@ export default function App() {
                   onClick={handleSealShizuka}
                   className="button-tactile"
                 >
-                  Seal Entry 🈲
+                  Seal Entry
                 </button>
               </div>
             </div>
@@ -1032,7 +1007,6 @@ export default function App() {
             <div className="space-y-3 text-xs text-[#1e1c10] leading-relaxed">
               <p><strong>What is Tsunagaranai Kachi (Disconnected by Design)?</strong></p>
               <p>Modern platforms force perpetual hyper-connectivity and dopamine loops. Kizuna intentionally disconnects hyper-feed mechanics to foster slow, deliberate human warmth.</p>
-              <p><strong>Cadence Batching:</strong> Updates arrive 3x/week or via Sunday digest, protecting your deep focus.</p>
               <p><strong>Shizuka Solitude:</strong> A dedicated personal space for intrapersonal reflection before interpersonal sharing.</p>
             </div>
 
