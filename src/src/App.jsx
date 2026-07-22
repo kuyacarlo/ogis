@@ -39,15 +39,15 @@ export default function App() {
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState('Rainy Shrines');
 
-  // Random Marquee Pool State
+  // Human / Quirky Marquee Reel State (stimmie.dev style vibe)
   const [marqueeText, setMarqueeText] = useState('');
 
   useEffect(() => {
     const marqueePool = [
-      "✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹",
-      "🌸 UNPLUGGED DIGITAL SANCTUARY 🌸 PURPOSES OVER PLATFORMS 🌸 TSUNAGARANAI KACHI 🌸 INTENTION OVER ATTENTION 🌸 RECLAIM YOUR SILENCE 🌸 SHIZUKA SOLITUDE 🌸",
-      "⛩️ OMOIDE SCRAPBOOKS & TIME CAPSULES ⛩️ 60S VOICE JOURNALS ⛩️ FIRESIDE UNVEIL BOARDS ⛩️ ZERO ALGORITHMIC FEED RE-ORDERING ⛩️ LOCAL-FIRST ENCRYPTION ⛩️",
-      "🌱 DEEP WARMTH OVER HYPER-CONNECTIVITY 🌱 SLOW COMMUNICATION ⛩️ 15 INNER CIRCLE CAPACITY 🌸 SOLITUDE SHIELD ✹ OGIS PHILIPPINES 2026 ✹"
+      "★ builder of quiet digital spaces ★ tea enthusiast ★ 35mm film hoarder ★ zero dopamine badges ★ un-curated thoughts ★ no infinite scroll ★ slow web survivor ★",
+      "🌸 offline in sagada 🌸 analog photo lab addict 🌸 mechanical keyboard luber 🌸 dunbar 15 safe 🌸 human warmth over algorithms 🌸",
+      "📜 late night rain enjoyer 📜 sourdough starter parent 📜 100% human made text 📜 disconnected by design 📜 no corporate corporate 📜",
+      "✨ deep conversations only ✨ non-commercial sanctuary ✨ 60s voice logs ★ warm paper aesthetic ★ welcome to kizuna ★"
     ];
     const randomIndex = Math.floor(Math.random() * marqueePool.length);
     setMarqueeText(marqueePool[randomIndex]);
@@ -346,11 +346,13 @@ export default function App() {
 
   const currentChapter = chapterData[selectedChapter] || chapterData['Rainy Shrines'];
 
-  // Shared Sticky Right Sidebar (Inner Circle Grid + Tab Widget)
-  const renderSharedRightSidebar = (extraWidget = null) => (
+  // Shared Sticky Right Sidebar (Inner Circle Grid AT THE END)
+  const renderSharedRightSidebar = (topWidget = null) => (
     <div className="sticky top-6 self-start space-y-6">
-      
-      {/* 1. Inner Circle 15-Friend Grid */}
+      {/* 1. Optional Top Widget (e.g. Scrapbook Chapters or Fireside Stats) */}
+      {topWidget}
+
+      {/* 2. Inner Circle 15-Friend Grid (PLACED AT THE END) */}
       <div className="command-card p-5">
         <div className="flex justify-between items-center mb-4 border-b border-[#dfc0b9] pb-2">
           <button 
@@ -398,9 +400,6 @@ export default function App() {
           </button>
         </div>
       </div>
-
-      {/* 2. Extra Tab-Specific Widget */}
-      {extraWidget}
     </div>
   );
 
@@ -495,10 +494,10 @@ export default function App() {
         </nav>
       </header>
 
-      {/* Dynamic Retro Scrolling Marquee Banner with Emojis */}
+      {/* Dynamic Retro Scrolling Marquee Banner with Human/Quirky Vibes */}
       <div className="neo-marquee-wrap mb-6" aria-hidden="true">
         <div className="neo-marquee-track">
-          {marqueeText || "✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹"}
+          {marqueeText || "★ builder of quiet digital spaces ★ tea enthusiast ★ 35mm film hoarder ★ zero dopamine badges ★ un-curated thoughts ★ no infinite scroll ★ slow web survivor ★"}
         </div>
       </div>
 
@@ -725,7 +724,7 @@ export default function App() {
 
             </div>
 
-            {/* Right Sidebar: Sticky Unified Sidebar */}
+            {/* Right Sidebar: Chapters on Top, Inner Circle at the End */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5">
@@ -854,7 +853,7 @@ export default function App() {
               )}
             </div>
 
-            {/* Sticky Right Sidebar */}
+            {/* Sticky Right Sidebar: Gathering Widget on Top, Inner Circle at the End */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5 text-center space-y-3">
