@@ -39,7 +39,7 @@ export default function App() {
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState('Rainy Shrines');
 
-  // Sanctuary Feed Posts
+  // Sanctuary Feed Posts (10 Grounded Log Entries)
   const [leafText, setLeafText] = useState('');
   const [timelinePosts, setTimelinePosts] = useState([
     {
@@ -85,6 +85,72 @@ export default function App() {
       text: 'Spent 3 uninterrupted hours finishing Cal Newport\'s "Digital Minimalism". The idea of treating attention as sacred space hit close to home.',
       warmth: 19,
       replies: 2
+    },
+    {
+      id: 5,
+      author: 'Kai',
+      authorCode: 'KAI',
+      time: '2 days ago',
+      category: 'Sound Journal / Espresso Dialing',
+      image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80',
+      text: 'Nailed the extraction on the new light roast. 18g in, 36g out in 28 seconds. Jasmine and bergamot notes were vivid.',
+      warmth: 15,
+      replies: 4
+    },
+    {
+      id: 6,
+      author: 'Hana',
+      authorCode: 'HAN',
+      time: '2 days ago',
+      category: 'Status / Mechanical Keyboard',
+      image: null,
+      text: 'Hand-lubing 68 switches on a rainy evening with tea brewing on the side. Peak zen activity.',
+      warmth: 22,
+      replies: 6
+    },
+    {
+      id: 7,
+      author: 'Arlo',
+      authorCode: 'ARL',
+      time: '3 days ago',
+      category: 'Memory / Antique Discovery',
+      image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&auto=format&fit=crop&q=80',
+      text: 'Found a 1924 map of Manila harbor tucked inside a second-hand history book. The paper smells like woodsmoke and cedar.',
+      warmth: 28,
+      replies: 3
+    },
+    {
+      id: 8,
+      author: 'Zoe',
+      authorCode: 'ZOE',
+      time: '4 days ago',
+      category: 'Thought / Offline Sagada',
+      image: null,
+      text: '3 days in Sagada without cellular signal. The first 12 hours felt like phantom limb syndrome, then your brain relaxes into real time.',
+      warmth: 45,
+      replies: 8
+    },
+    {
+      id: 9,
+      author: 'Mila',
+      authorCode: 'MIL',
+      time: '5 days ago',
+      category: 'Craft / Sourdough Bake',
+      image: 'https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?w=800&auto=format&fit=crop&q=80',
+      text: 'First 80% hydration sourdough loaf with an open crumb! The starter named "Lazarus" is finally thriving.',
+      warmth: 18,
+      replies: 2
+    },
+    {
+      id: 10,
+      author: 'Ren',
+      authorCode: 'REN',
+      time: '6 days ago',
+      category: 'Sound Journal / Night Rain',
+      image: null,
+      text: 'Heavy rain drumming against the zinc roof outside. Recorded a 2-minute binaural track for tonight\'s Shizuka session.',
+      warmth: 27,
+      replies: 4
     }
   ]);
 
@@ -188,6 +254,97 @@ export default function App() {
     ? timelinePosts.filter(p => p.authorCode === selectedFriend)
     : timelinePosts;
 
+  // Render Common Right Sidebar Component (Cadence Control + Inner Circle Grid)
+  const renderSharedRightSidebar = (extraWidget = null) => (
+    <div className="space-y-6">
+      {/* 1. Cadence Control Card */}
+      <div className="command-card p-5">
+        <span className="text-xs font-bold text-[#8b716c] block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">
+          CADENCE CONTROL
+        </span>
+
+        {/* Physical Dial Switch */}
+        <div className="w-28 h-20 bg-[#e9e2d0] border-2 border-[#8b716c] rounded-lg flex flex-col items-center justify-center gap-1.5 shadow-inner mx-auto mb-3">
+          <div className="w-1.5 h-4 bg-[#a43720] rounded-full"></div>
+          <div className="bg-white border border-[#dfc0b9] px-3 py-0.5 rounded text-[10px] text-[#a43720] font-bold font-mono">
+            {cadenceSetting}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-1 text-center">
+          {[
+            { id: '01. INF', label: '01. INF' },
+            { id: '02. 3X', label: '02. 3X' },
+            { id: '03. SUN', label: '03. SUN' }
+          ].map((opt) => (
+            <button
+              key={opt.id}
+              onClick={() => {
+                setCadenceSetting(opt.id);
+                showToast(`Cadence throttle updated: ${opt.id}`);
+              }}
+              className={`py-1 bg-white border border-[#dfc0b9] rounded text-[10px] font-mono ${cadenceSetting === opt.id ? 'border-[#a43720] bg-[#ffdad3] text-[#a43720] font-bold' : 'text-[#58423d]'}`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. Inner Circle 15-Friend Grid */}
+      <div className="command-card p-5">
+        <div className="flex justify-between items-center mb-4 border-b border-[#dfc0b9] pb-2">
+          <button 
+            onClick={() => setDunbarModalOpen(true)}
+            className="text-xs font-bold text-[#8b716c] font-mono hover:text-[#a43720]"
+          >
+            INNER CIRCLE ℹ️
+          </button>
+          <span className="text-xs text-[#a43720] font-bold font-mono">15/15 Active</span>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2.5">
+          {innerCircleGrid.map((person, i) => (
+            <div 
+              key={i}
+              onClick={() => {
+                setSelectedFriend(selectedFriend === person.code ? null : person.code);
+                showToast(selectedFriend === person.code ? 'Cleared friend filter' : `Filtering feed by ${person.name}`);
+              }}
+              className="text-center group cursor-pointer"
+            >
+              <div className={`w-11 h-11 mx-auto rounded border ${selectedFriend === person.code ? 'border-[#a43720] ring-2 ring-[#a43720]' : 'border-[#dfc0b9]'} group-hover:border-[#a43720] overflow-hidden transition-all`}>
+                <img src={person.img} alt={person.name} className="w-full h-full object-cover" />
+              </div>
+              <span className="block text-[9px] text-[#58423d] mt-1 font-bold font-mono">{person.code}</span>
+            </div>
+          ))}
+
+          <div 
+            onClick={() => setDunbarModalOpen(true)}
+            className="text-center cursor-pointer"
+          >
+            <div className="w-11 h-11 mx-auto rounded border-2 border-dashed border-[#dfc0b9] flex items-center justify-center text-[#58423d] hover:border-[#a43720]">
+              <Plus className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-3 border-t border-[#dfc0b9] text-center">
+          <button 
+            onClick={() => setDunbarModalOpen(true)}
+            className="text-[10px] text-[#58423d] font-bold font-mono flex items-center justify-center gap-1 mx-auto hover:text-[#a43720]"
+          >
+            <Shield className="w-3 h-3 text-[#a43720]" /> DUNBAR CAP: 15
+          </button>
+        </div>
+      </div>
+
+      {/* 3. Extra Tab-Specific Widget */}
+      {extraWidget}
+    </div>
+  );
+
   return (
     <div className="min-h-screen text-[#1e1c10] pb-16 antialiased max-w-6xl mx-auto pt-6 px-4 relative">
       
@@ -290,80 +447,13 @@ export default function App() {
       <main className="min-w-0">
         
         {/* =================================================================== */}
-        {/* TAB 1: SANCTUARY */}
+        {/* TAB 1: SANCTUARY (UNIFIED 2-COLUMN LAYOUT) */}
         {/* =================================================================== */}
         {activeTab === 'sanctuary' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            {/* Left Column: Quiet Metrics & Cadence Control */}
-            <div className="lg:col-span-3 space-y-6">
-              
-              {/* Quiet Metrics Card */}
-              <div className="command-card p-5">
-                <div className="flex justify-between items-center mb-4 border-b border-[#dfc0b9] pb-2">
-                  <span className="text-xs font-bold text-[#8b716c] font-mono">QUIET METRICS</span>
-                  <span className="text-xs">📊</span>
-                </div>
-
-                <div className="space-y-4 text-xs">
-                  <div className="flex justify-between items-center border-b border-[#f4eedb] pb-2">
-                    <span className="text-[#58423d]">Screen Time Delta</span>
-                    <span className="font-bold text-[#a43720]">-42%</span>
-                  </div>
-                  <div className="flex justify-between items-center border-b border-[#f4eedb] pb-2">
-                    <span className="text-[#58423d]">Circle Cohesion</span>
-                    <span className="font-bold text-[#a43720]">8.4/10</span>
-                  </div>
-                  <div className="flex justify-between items-center border-b border-[#f4eedb] pb-2">
-                    <span className="text-[#58423d]">Sanctuary Residency</span>
-                    <span className="font-bold text-[#a43720]">127 Days</span>
-                  </div>
-                  <div className="flex justify-between items-center border-b border-[#f4eedb] pb-2">
-                    <span className="text-[#58423d]">Network Frequency</span>
-                    <span className="font-bold text-[#a43720]">0.2 Hz</span>
-                  </div>
-                  <div className="pt-1 text-[11px] italic text-[#58423d]">
-                    Generated: 2023.10.15 14:30 JST
-                  </div>
-                </div>
-              </div>
-
-              {/* Cadence Control Card */}
-              <div className="command-card p-5">
-                <span className="text-xs font-bold text-[#8b716c] block mb-4 border-b border-[#dfc0b9] pb-2 font-mono">CADENCE CONTROL</span>
-
-                {/* Physical Toggle Dial Switch */}
-                <div className="w-28 h-24 bg-[#e9e2d0] border-2 border-[#8b716c] rounded-lg flex flex-col items-center justify-center gap-2 shadow-inner mx-auto mb-4">
-                  <div className="w-1.5 h-5 bg-[#a43720] rounded-full"></div>
-                  <div className="bg-white border border-[#dfc0b9] px-3 py-0.5 rounded text-[10px] text-[#a43720] font-bold font-mono">
-                    {cadenceSetting}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-1.5 text-center">
-                  {[
-                    { id: '01. INF', label: '01. INF' },
-                    { id: '02. 3X', label: '02. 3X' },
-                    { id: '03. SUN', label: '03. SUN' }
-                  ].map((opt) => (
-                    <button
-                      key={opt.id}
-                      onClick={() => {
-                        setCadenceSetting(opt.id);
-                        showToast(`Cadence throttle updated: ${opt.id}`);
-                      }}
-                      className={`py-1 bg-white border border-[#dfc0b9] rounded text-[10px] font-mono ${cadenceSetting === opt.id ? 'border-[#a43720] bg-[#ffdad3] text-[#a43720] font-bold' : 'text-[#58423d]'}`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            {/* Middle Column: Log Creator & Red Timeline Feed */}
-            <div className="lg:col-span-6 space-y-6">
+            {/* Left Main Column: Log Entry Creator & 10 Timeline Entries */}
+            <div className="lg:col-span-8 space-y-6">
               
               {/* Log Entry Creator */}
               <div className="command-card p-5">
@@ -465,62 +555,16 @@ export default function App() {
 
             </div>
 
-            {/* Right Column: Inner Circle Grid */}
-            <div className="lg:col-span-3 space-y-6">
-              <div className="command-card p-5">
-                <div className="flex justify-between items-center mb-4 border-b border-[#dfc0b9] pb-2">
-                  <button 
-                    onClick={() => setDunbarModalOpen(true)}
-                    className="text-xs font-bold text-[#8b716c] font-mono hover:text-[#a43720]"
-                  >
-                    INNER CIRCLE ℹ️
-                  </button>
-                  <span className="text-xs text-[#a43720] font-bold font-mono">15/15 Active</span>
-                </div>
-
-                <div className="grid grid-cols-3 gap-2.5">
-                  {innerCircleGrid.map((person, i) => (
-                    <div 
-                      key={i}
-                      onClick={() => {
-                        setSelectedFriend(selectedFriend === person.code ? null : person.code);
-                        showToast(selectedFriend === person.code ? 'Cleared friend filter' : `Filtering feed by ${person.name}`);
-                      }}
-                      className="text-center group cursor-pointer"
-                    >
-                      <div className={`w-11 h-11 mx-auto rounded border ${selectedFriend === person.code ? 'border-[#a43720] ring-2 ring-[#a43720]' : 'border-[#dfc0b9]'} group-hover:border-[#a43720] overflow-hidden transition-all`}>
-                        <img src={person.img} alt={person.name} className="w-full h-full object-cover" />
-                      </div>
-                      <span className="block text-[9px] text-[#58423d] mt-1 font-bold font-mono">{person.code}</span>
-                    </div>
-                  ))}
-
-                  <div 
-                    onClick={() => setDunbarModalOpen(true)}
-                    className="text-center cursor-pointer"
-                  >
-                    <div className="w-11 h-11 mx-auto rounded border-2 border-dashed border-[#dfc0b9] flex items-center justify-center text-[#58423d] hover:border-[#a43720]">
-                      <Plus className="w-4 h-4" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-4 border-t border-[#dfc0b9] text-center">
-                  <button 
-                    onClick={() => setDunbarModalOpen(true)}
-                    className="text-[10px] text-[#58423d] font-bold font-mono flex items-center justify-center gap-1 mx-auto hover:text-[#a43720]"
-                  >
-                    <Shield className="w-3 h-3 text-[#a43720]" /> SECURE CIRCLE (CAP: 15)
-                  </button>
-                </div>
-              </div>
+            {/* Right Sidebar: Unified Cadence Control & Inner Circle Grid */}
+            <div className="lg:col-span-4">
+              {renderSharedRightSidebar()}
             </div>
 
           </div>
         )}
 
         {/* =================================================================== */}
-        {/* TAB 2: OMOIDE */}
+        {/* TAB 2: OMOIDE (UNIFIED 2-COLUMN LAYOUT) */}
         {/* =================================================================== */}
         {activeTab === 'omoide' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -610,41 +654,40 @@ export default function App() {
 
             </div>
 
-            <div className="lg:col-span-4 space-y-6">
-              <div className="board-card p-5">
-                <span className="text-xs font-bold block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">📋 CHAPTERS</span>
-                <ul className="space-y-3 text-xs">
-                  {[
-                    { title: 'The Arrival', page: 'PAGE 01' },
-                    { title: 'Kamakura Coast', page: 'PAGE 04' },
-                    { title: 'Rainy Shrines', page: 'PAGE 07' },
-                    { title: 'Departure Day', page: 'PAGE 12' }
-                  ].map(ch => (
-                    <li 
-                      key={ch.title}
-                      onClick={() => {
-                        setSelectedChapter(ch.title);
-                        showToast(`Loaded chapter: ${ch.title}`);
-                      }}
-                      className={`flex justify-between cursor-pointer p-1 rounded ${selectedChapter === ch.title ? 'font-bold text-[#a43720] border-l-2 border-[#a43720] pl-2 bg-[#faf3e0]' : 'text-[#58423d] hover:text-[#a43720]'}`}
-                    >
-                      <span>• {ch.title}</span>
-                      <span className="text-[10px] font-mono">{ch.page}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="p-2 bg-white border border-[#dfc0b9] shadow-sm">
-                <img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&auto=format&fit=crop&q=80" alt="Sakura" className="w-full h-72 object-cover rounded" />
-              </div>
+            {/* Right Sidebar: Unified Cadence Control + Inner Circle + Chapters */}
+            <div className="lg:col-span-4">
+              {renderSharedRightSidebar(
+                <div className="board-card p-5">
+                  <span className="text-xs font-bold block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">📋 SCRAPBOOK CHAPTERS</span>
+                  <ul className="space-y-3 text-xs">
+                    {[
+                      { title: 'The Arrival', page: 'PAGE 01' },
+                      { title: 'Kamakura Coast', page: 'PAGE 04' },
+                      { title: 'Rainy Shrines', page: 'PAGE 07' },
+                      { title: 'Departure Day', page: 'PAGE 12' }
+                    ].map(ch => (
+                      <li 
+                        key={ch.title}
+                        onClick={() => {
+                          setSelectedChapter(ch.title);
+                          showToast(`Loaded chapter: ${ch.title}`);
+                        }}
+                        className={`flex justify-between cursor-pointer p-1 rounded ${selectedChapter === ch.title ? 'font-bold text-[#a43720] border-l-2 border-[#a43720] pl-2 bg-[#faf3e0]' : 'text-[#58423d] hover:text-[#a43720]'}`}
+                      >
+                        <span>• {ch.title}</span>
+                        <span className="text-[10px] font-mono">{ch.page}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
           </div>
         )}
 
         {/* =================================================================== */}
-        {/* TAB 3: FIRESIDE */}
+        {/* TAB 3: FIRESIDE (UNIFIED 2-COLUMN LAYOUT) */}
         {/* =================================================================== */}
         {activeTab === 'fireside' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -735,16 +778,19 @@ export default function App() {
               )}
             </div>
 
-            <div className="lg:col-span-4 space-y-6">
-              <div className="board-card p-5 text-center space-y-3">
-                <span className="text-xs font-bold block mb-2 border-b border-[#dfc0b9] pb-2 font-mono">GATHERED AT FIRE</span>
-                <div className="flex justify-center -space-x-2 my-2">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
+            {/* Right Sidebar: Unified Cadence Control + Inner Circle + Fireside Info */}
+            <div className="lg:col-span-4">
+              {renderSharedRightSidebar(
+                <div className="board-card p-5 text-center space-y-3">
+                  <span className="text-xs font-bold block mb-2 border-b border-[#dfc0b9] pb-2 font-mono">GATHERED AT FIRE</span>
+                  <div className="flex justify-center -space-x-2 my-2">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
+                  </div>
+                  <p className="text-xs text-[#58423d]">3 of 5 friends pinned reflections.</p>
                 </div>
-                <p className="text-xs text-[#58423d]">3 of 5 friends pinned reflections.</p>
-              </div>
+              )}
             </div>
 
           </div>
