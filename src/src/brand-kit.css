@@ -1,0 +1,164 @@
+/* ==========================================================================
+   KIZUNA (絆) — STIMMIE.DEV STYLED NEOCITIES REVIVAL BRAND KIT
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* Warm Stimmie Neocities Color Palette */
+  --neo-bg: #fff9eb;
+  --neo-box: #ffffff;
+  --neo-border: #a43720;
+  --neo-border-faint: #dfc0b9;
+  --neo-border-dark: #2c2c2c;
+
+  --neo-primary: #a43720;
+  --neo-primary-hover: #86220c;
+  --neo-active-bg: #ffdad3;
+
+  --neo-text: #1e1c10;
+  --neo-muted: #58423d;
+
+  --neo-font-heading: 'Fredoka', 'Newsreader', cursive, serif;
+  --neo-font-ui: 'Nunito', 'Work Sans', sans-serif;
+}
+
+body {
+  background-color: var(--neo-bg);
+  color: var(--neo-text);
+  font-family: var(--neo-font-ui);
+  -webkit-font-smoothing: antialiased;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+/* Stimmie.dev Neo-Box Header Container */
+.neo-box {
+  background: var(--neo-box);
+  border: 3px ridge var(--neo-border);
+  padding: 1rem 1.25rem;
+  box-shadow: 4px 4px var(--neo-border-dark);
+  border-radius: 4px;
+}
+
+/* Header Title */
+.neo-title {
+  font-family: var(--neo-font-heading);
+  font-weight: 700;
+  font-size: 1.85rem;
+  color: var(--neo-primary);
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Stimmie.dev Top Navigation Bar */
+.neo-topnav {
+  font-family: var(--neo-font-ui);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.6rem;
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+}
+
+.neo-topnav button, .neo-topnav a {
+  border: 2px solid transparent;
+  padding: 0.2rem 0.65rem;
+  display: inline-block;
+  color: var(--neo-text);
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  background: transparent;
+  cursor: pointer;
+}
+
+.neo-topnav button:hover, .neo-topnav a:hover {
+  border: 2px dashed var(--neo-primary);
+  color: var(--neo-primary);
+}
+
+.neo-topnav button[aria-current="page"], .neo-topnav a[aria-current="page"] {
+  border: 2px solid var(--neo-border);
+  background: var(--neo-active-bg);
+  color: var(--neo-primary);
+  font-weight: 700;
+  box-shadow: 2px 2px 0px var(--neo-border-dark);
+}
+
+/* Retro Scrolling Marquee Banner */
+.neo-marquee-wrap {
+  background: #faf3e0;
+  border: 1.5px solid var(--neo-border-faint);
+  overflow: hidden;
+  padding: 0.35rem 0;
+  white-space: nowrap;
+  font-family: var(--neo-font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--neo-primary);
+  border-radius: 4px;
+}
+
+.neo-marquee-track {
+  display: inline-block;
+  animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Stimmie.dev Style 88x31 Web Badge */
+.kz-badge-88x31 {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 2px solid var(--neo-border-dark);
+  box-shadow: 2px 2px 0px var(--neo-border-dark);
+  border-radius: 2px;
+  font-family: var(--neo-font-ui);
+  user-select: none;
+}
+.board-card, .command-card {
+  background-color: #ffffff;
+  border: 1.5px solid var(--neo-border-faint);
+  border-radius: 4px;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.board-card:hover {
+  border-color: var(--neo-border);
+}
+
+/* Tactile 3D Button */
+.button-tactile {
+  background-color: var(--neo-primary);
+  color: #ffffff;
+  font-family: var(--neo-font-ui);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1.5px solid var(--neo-primary-hover);
+  box-shadow: 2px 2px 0px var(--neo-border-dark);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.1s ease;
+}
+.button-tactile:active {
+  box-shadow: 0px 0px 0px var(--neo-border-dark);
+  transform: translate(2px, 2px);
+}
+
+/* Ruled Writing Surface Lines */
+.ruled-lines {
+  background-image: repeating-linear-gradient(transparent, transparent 31px, var(--neo-border-faint) 31px, var(--neo-border-[#dfc0b9]) 32px);
+  line-height: 32px;
+}

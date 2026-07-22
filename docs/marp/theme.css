@@ -1,0 +1,90 @@
+/* @theme kizuna */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap');
+
+section {
+  background-color: #fdfbf7;
+  color: #2c2825;
+  font-family: 'Nunito', 'Quicksand', sans-serif;
+  padding: 40px 60px;
+  border: 4px ridge #d4a574;
+  box-shadow: inset 0 0 40px rgba(212, 165, 116, 0.15);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Fredoka', cursive, sans-serif;
+  color: #8b3a2b;
+}
+
+h1 {
+  font-size: 2.4rem;
+  border-bottom: 3px dashed #d4a574;
+  padding-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #3b5a6f;
+}
+
+h3 {
+  font-size: 1.4rem;
+  color: #8b3a2b;
+}
+
+strong {
+  color: #8b3a2b;
+}
+
+a {
+  color: #3b5a6f;
+  text-decoration: underline;
+}
+
+blockquote {
+  background: #f5e6c8;
+  border-left: 6px solid #8b3a2b;
+  padding: 15px 25px;
+  font-style: italic;
+  border-radius: 4px;
+}
+
+code {
+  background: #eae2d6;
+  color: #2c2825;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.box {
+  background: #fff;
+  border: 2px solid #d4a574;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 4px 4px 0px #d4a574;
+}
+
+footer {
+  font-size: 0.8rem;
+  color: #7a7067;
+}
+
+header {
+  font-size: 0.8rem;
+  color: #7a7067;
+}
+
+section.lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #fdfbf7 0%, #f7eedf 100%);
+}
+
+section.lead h1 {
+  font-size: 3rem;
+  border-bottom: none;
+}
