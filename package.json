@@ -1,0 +1,11 @@
+{
+  "name": "kizuna-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kizuna (絆) — Purposeful Connection Platform for OGIS 2026",
+  "scripts": {
+    "dev": "cd src && pnpm dev",
+    "build": "cd src && pnpm run build",
+    "preview": "cd src && pnpm run preview"
+  }
+}
