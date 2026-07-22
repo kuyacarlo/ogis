@@ -188,7 +188,7 @@ export default function App() {
     { code: 'MEI', name: 'Mei-lin', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80' },
     { code: 'JUL', name: 'Julian', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80' },
     { code: 'SOR', name: 'Sora', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80' },
-    { code: 'ELA', name: 'Elena', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&auto=format&fit=crop&q=80' },
+    { code: 'ELA', name: 'Elena', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80' },
     { code: 'KAI', name: 'Kai', img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=120&auto=format&fit=crop&q=80' },
     { code: 'HAN', name: 'Hana', img: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=120&auto=format&fit=crop&q=80' },
     { code: 'ARL', name: 'Arlo', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80' },
@@ -254,9 +254,9 @@ export default function App() {
     ? timelinePosts.filter(p => p.authorCode === selectedFriend)
     : timelinePosts;
 
-  // Render Common Right Sidebar Component (Cadence Control + Inner Circle Grid)
+  // Render Shared Sticky Right Sidebar Component
   const renderSharedRightSidebar = (extraWidget = null) => (
-    <div className="space-y-6">
+    <div className="sticky top-6 self-start space-y-6">
       {/* 1. Cadence Control Card */}
       <div className="command-card p-5">
         <span className="text-xs font-bold text-[#8b716c] block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">
@@ -437,7 +437,7 @@ export default function App() {
       </header>
 
       {/* Retro Scrolling Marquee Banner */}
-      <div className="neo-marquee-wrap mb-4" aria-hidden="true">
+      <div className="neo-marquee-wrap mb-6" aria-hidden="true">
         <div className="neo-marquee-track">
           ✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹ WELCOME TO KIZUNA SANCTUARY ✹ NARROW & DEEP CONNECTIONS ✹ DUNBAR 15 INNER CIRCLE ✹ ZERO DOPAMINE BADGES ✹ SOLITUDE SHIELD ACTIVE ✹ NO INFINITE SCROLL ✹ DISCONNECTED BY DESIGN ✹
         </div>
@@ -447,14 +447,20 @@ export default function App() {
       <main className="min-w-0">
         
         {/* =================================================================== */}
-        {/* TAB 1: SANCTUARY (UNIFIED 2-COLUMN LAYOUT) */}
+        {/* TAB 1: SANCTUARY (IDENTICAL GAP-8 2-COLUMN GRID) */}
         {/* =================================================================== */}
         {activeTab === 'sanctuary' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Left Main Column: Log Entry Creator & 10 Timeline Entries */}
+            {/* Left Main Column: Title Block, Log Entry Creator & 10 Timeline Entries */}
             <div className="lg:col-span-8 space-y-6">
-              
+              <div>
+                <h1 className="font-bold text-3xl text-[#a43720] mb-1">Sanctuary Feed</h1>
+                <p className="italic text-sm text-[#58423d]">
+                  "A quiet, un-curated timeline stream from your 15 inner-circle friends. Zero algorithmic re-ordering."
+                </p>
+              </div>
+
               {/* Log Entry Creator */}
               <div className="command-card p-5">
                 <div className="flex justify-between items-center mb-3">
@@ -555,7 +561,7 @@ export default function App() {
 
             </div>
 
-            {/* Right Sidebar: Unified Cadence Control & Inner Circle Grid */}
+            {/* Right Sidebar: Sticky Unified Sidebar */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar()}
             </div>
@@ -564,7 +570,7 @@ export default function App() {
         )}
 
         {/* =================================================================== */}
-        {/* TAB 2: OMOIDE (UNIFIED 2-COLUMN LAYOUT) */}
+        {/* TAB 2: OMOIDE (IDENTICAL GAP-8 2-COLUMN GRID) */}
         {/* =================================================================== */}
         {activeTab === 'omoide' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -654,7 +660,7 @@ export default function App() {
 
             </div>
 
-            {/* Right Sidebar: Unified Cadence Control + Inner Circle + Chapters */}
+            {/* Right Sidebar: Sticky Unified Sidebar */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5">
@@ -687,7 +693,7 @@ export default function App() {
         )}
 
         {/* =================================================================== */}
-        {/* TAB 3: FIRESIDE (UNIFIED 2-COLUMN LAYOUT) */}
+        {/* TAB 3: FIRESIDE (IDENTICAL GAP-8 2-COLUMN GRID) */}
         {/* =================================================================== */}
         {activeTab === 'fireside' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -778,7 +784,7 @@ export default function App() {
               )}
             </div>
 
-            {/* Right Sidebar: Unified Cadence Control + Inner Circle + Fireside Info */}
+            {/* Right Sidebar: Sticky Unified Sidebar */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5 text-center space-y-3">
