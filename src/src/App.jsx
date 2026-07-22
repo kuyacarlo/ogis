@@ -156,7 +156,7 @@ export default function App() {
     }
   ]);
 
-  // Dynamic Omoide Chapter Archives (Making Scrapbook Chapters Alive!)
+  // Dynamic Omoide Chapter Archives
   const chapterData = {
     'The Arrival': {
       title: 'The Arrival at Enoshima',
@@ -334,40 +334,44 @@ export default function App() {
 
   const currentChapter = chapterData[selectedChapter] || chapterData['Rainy Shrines'];
 
-  // Render Shared Sticky Right Sidebar Component
+  // Render Shared Sticky Right Sidebar Component (Sticky Top-6 across Sanctuary, Omoide, & Fireside)
   const renderSharedRightSidebar = (extraWidget = null) => (
     <div className="sticky top-6 self-start space-y-6">
-      {/* 1. Cadence Control Card */}
+      
+      {/* 1. Cadence Control Card: Left status display + Right 3 stacked toggle buttons */}
       <div className="command-card p-5">
         <span className="text-xs font-bold text-[#8b716c] block mb-3 border-b border-[#dfc0b9] pb-2 font-mono">
           CADENCE CONTROL
         </span>
 
-        {/* Physical Dial Switch */}
-        <div className="w-28 h-20 bg-[#e9e2d0] border-2 border-[#8b716c] rounded-lg flex flex-col items-center justify-center gap-1.5 shadow-inner mx-auto mb-3">
-          <div className="w-1.5 h-4 bg-[#a43720] rounded-full"></div>
-          <div className="bg-white border border-[#dfc0b9] px-3 py-0.5 rounded text-[10px] text-[#a43720] font-bold font-mono">
-            {cadenceSetting}
+        <div className="flex items-center gap-3">
+          {/* Left Side: Physical Status Switch Display */}
+          <div className="w-24 h-20 bg-[#e9e2d0] border-2 border-[#8b716c] rounded-lg flex flex-col items-center justify-center gap-1 shadow-inner shrink-0">
+            <div className="w-1.5 h-3.5 bg-[#a43720] rounded-full"></div>
+            <div className="bg-white border border-[#dfc0b9] px-2 py-0.5 rounded text-[10px] text-[#a43720] font-bold font-mono">
+              {cadenceSetting}
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-3 gap-1 text-center">
-          {[
-            { id: '01. INF', label: '01. INF' },
-            { id: '02. 3X', label: '02. 3X' },
-            { id: '03. SUN', label: '03. SUN' }
-          ].map((opt) => (
-            <button
-              key={opt.id}
-              onClick={() => {
-                setCadenceSetting(opt.id);
-                showToast(`Cadence throttle updated: ${opt.id}`);
-              }}
-              className={`py-1 bg-white border border-[#dfc0b9] rounded text-[10px] font-mono ${cadenceSetting === opt.id ? 'border-[#a43720] bg-[#ffdad3] text-[#a43720] font-bold' : 'text-[#58423d]'}`}
-            >
-              {opt.label}
-            </button>
-          ))}
+          {/* Right Side: 3 Toggleable Buttons */}
+          <div className="flex-1 space-y-1">
+            {[
+              { id: '01. INF', label: '01. INF' },
+              { id: '02. 3X', label: '02. 3X' },
+              { id: '03. SUN', label: '03. SUN' }
+            ].map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => {
+                  setCadenceSetting(opt.id);
+                  showToast(`Cadence throttle updated: ${opt.id}`);
+                }}
+                className={`w-full py-1 px-2 bg-white border border-[#dfc0b9] rounded text-[10px] font-mono text-center transition-all ${cadenceSetting === opt.id ? 'border-[#a43720] bg-[#ffdad3] text-[#a43720] font-bold shadow-xs' : 'text-[#58423d] hover:border-[#a43720]'}`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -650,7 +654,7 @@ export default function App() {
         )}
 
         {/* =================================================================== */}
-        {/* TAB 2: OMOIDE (ALIVE SCRAPBOOK CHAPTERS) */}
+        {/* TAB 2: OMOIDE */}
         {/* =================================================================== */}
         {activeTab === 'omoide' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -746,7 +750,7 @@ export default function App() {
 
             </div>
 
-            {/* Right Sidebar: Sticky Unified Sidebar with Interactive Chapters */}
+            {/* Right Sidebar: Sticky Unified Sidebar */}
             <div className="lg:col-span-4">
               {renderSharedRightSidebar(
                 <div className="board-card p-5">
