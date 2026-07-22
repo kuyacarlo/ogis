@@ -38,11 +38,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
-        run: |
-          cd src
-          pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build Web Prototype
-        run: |
-          cd src
-          pnpm run build
+        run: pnpm run build

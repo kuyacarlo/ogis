@@ -1,7 +1,7 @@
 {
   "framework": "vite",
-  "buildCommand": "cd src && pnpm run build",
-  "outputDirectory": "src/dist",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
     {
