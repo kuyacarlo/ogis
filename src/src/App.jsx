@@ -430,28 +430,25 @@ export default function App() {
           Narrow & Deep Purposeful Connection Platform · Tsunagaranai Kachi (Disconnected by Design)
         </p>
 
-        {/* 88x31 Retro Web Badges */}
-        <div className="flex justify-center items-center gap-2.5 mt-2.5">
+        {/* 88x31 Retro Web Badges with 3D Press-Down Action */}
+        <div className="flex justify-center items-center gap-3 mt-3">
           <button 
             onClick={() => setHelpModalOpen(true)}
-            className="kz-badge-88x31 bg-[#a43720] text-white px-2 py-0.5 text-[10px] font-mono hover:scale-105 transition-all cursor-pointer"
+            className="kz-badge-88x31 bg-[#a43720] text-white"
           >
-            <span className="font-bold">絆 KIZUNA</span>
-            <span className="bg-white text-[#a43720] px-1 font-bold text-[9px] rounded-xs">88x31</span>
+            <span>絆 KIZUNA 88x31</span>
           </button>
           <button 
             onClick={() => setPrivacyModalOpen(true)}
-            className="kz-badge-88x31 bg-[#506449] text-white px-2 py-0.5 text-[10px] font-mono hover:scale-105 transition-all cursor-pointer"
+            className="kz-badge-88x31 bg-[#506449] text-white"
           >
-            <span className="font-bold">UNPLUGGED</span>
-            <span className="bg-white text-[#506449] px-1 font-bold text-[9px] rounded-xs">v1.0</span>
+            <span>UNPLUGGED v1.0</span>
           </button>
           <button 
             onClick={() => setDunbarModalOpen(true)}
-            className="kz-badge-88x31 bg-[#904917] text-white px-2 py-0.5 text-[10px] font-mono hover:scale-105 transition-all cursor-pointer"
+            className="kz-badge-88x31 bg-[#904917] text-white"
           >
-            <span className="font-bold">DUNBAR 15</span>
-            <span className="bg-white text-[#904917] px-1 font-bold text-[9px] rounded-xs">SAFE</span>
+            <span>DUNBAR 15 SAFE</span>
           </button>
         </div>
 
@@ -515,7 +512,7 @@ export default function App() {
               <div>
                 <h1 className="font-bold text-3xl text-[#a43720] mb-1">Sanctuary Feed</h1>
                 <p className="italic text-sm text-[#58423d]">
-                  "A quiet, un-curated timeline stream from your 15 inner-circle friends. Zero algorithmic re-ordering."
+                  "A quiet stream from your 15 inner-circle friends. Zero algorithms."
                 </p>
               </div>
 
@@ -638,7 +635,7 @@ export default function App() {
                 <div>
                   <h1 className="font-bold text-3xl text-[#a43720] mb-1">Omoide Memories</h1>
                   <p className="italic text-sm text-[#58423d]">
-                    "A private, shared scrapbook between you and those who matter most."
+                    "A private scrapbook shared between you and your close circle."
                   </p>
                 </div>
                 <span className="font-mono text-xs font-bold text-[#a43720] bg-[#ffdad3] px-2.5 py-1 rounded border border-[#dfc0b9]">
@@ -771,7 +768,7 @@ export default function App() {
               <div>
                 <h1 className="text-3xl font-bold text-[#a43720] mb-1">Fireside Reflections</h1>
                 <p className="italic text-sm text-[#58423d] border-l-2 border-[#a43720] pl-3">
-                  A warm corner for your micro-group to share soft moments. Answer the prompt to see what others are feeling.
+                  A warm corner for your micro-group to share soft moments.
                 </p>
               </div>
 
@@ -978,7 +975,7 @@ export default function App() {
             <div className="space-y-3 text-xs text-[#1e1c10] leading-relaxed">
               <p><strong>1. Zero Data Harvesting:</strong> Kizuna collects no analytics, ad identifiers, or behavioral tracking telemetry.</p>
               <p><strong>2. Local-First Memory Storage:</strong> All Shizuka reflections and Omoide scrapbooks remain locally stored and encrypted on your device.</p>
-              <p><strong>3. Dunbar 15 Boundary:</strong> No public discovery feeds or algorithmic recommendations. Content is strictly transmitted to your trusted 15 inner-circle friends.</p>
+              <p><strong>3. Dunbar 15 Boundary:</strong> Content is strictly transmitted to your trusted 15 inner-circle friends.</p>
             </div>
 
             <div className="flex justify-end pt-2 border-t border-[#dfc0b9]">
@@ -1035,8 +1032,7 @@ export default function App() {
               <p className="bg-[#faf3e0] p-2.5 rounded border border-[#dfc0b9] font-bold text-[#a43720]">
                 Your Inner Circle is currently at maximum capacity (15/15 Active Friends).
               </p>
-              <p>Anthropologist Robin Dunbar demonstrated that humans can maintain a maximum of 15 close, high-trust relationships ("sympathy group"). Beyond 15, trust deteriorates into performance.</p>
-              <p>To add a new friend to your sanctuary, you must first archive or rotate an existing member into your extended circle.</p>
+              <p>Anthropologist Robin Dunbar demonstrated that humans can maintain a maximum of 15 close, high-trust relationships. Beyond 15, trust deteriorates into performance.</p>
             </div>
 
             <div className="flex justify-end pt-2 border-t border-[#dfc0b9]">
